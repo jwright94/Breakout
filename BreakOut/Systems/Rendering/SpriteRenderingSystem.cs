@@ -45,7 +45,7 @@ namespace BreakOut.Systems.Rendering
                 var sprite = _entites.Components1[spriteIndex];
                 var transform = _entites.Components2[spriteIndex];
 
-                _spriteBatch.Draw(sprite.Texture, transform.Position, Color.White);
+                _spriteBatch.Draw(sprite.Texture, transform.Position, sprite.SourceRectangle, sprite.Color, transform.Rotation, sprite.Origin, sprite.Scale, SpriteEffects.None, sprite.Layer);
             }
             _spriteBatch.End();
 
@@ -58,7 +58,7 @@ namespace BreakOut.Systems.Rendering
                 RasterizerState.CullNone);
 
             _spriteBatch.Draw(_screen, new Rectangle(0, 0, _graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight), Color.White);
-
+            
             _spriteBatch.End();
         }
     }

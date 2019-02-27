@@ -12,5 +12,6 @@ namespace BreakOut.Components
     {
         public Vector2 Direction    { get; set; }
         public float Velocity       { get; set; }
+        public float RotationDirection { get; internal set; }
     }
 }
