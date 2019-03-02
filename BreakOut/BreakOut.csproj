@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="BreakoutGame.cs" />
     <Compile Include="Components\BallComponent.cs" />
+    <Compile Include="Components\CollisionEventComponent.cs" />
+    <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\PaddleComponent.cs" />
     <Compile Include="Components\PlayerInputComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
@@ -88,13 +90,17 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
+    <Compile Include="Systems\Gameplay\BallBounceSystem.cs" />
+    <Compile Include="Systems\Gameplay\BallMovementSystem.cs" />
     <Compile Include="Systems\Gameplay\InputSystem.cs" />
-    <Compile Include="Systems\Gameplay\BallSystem.cs" />
+    <Compile Include="Systems\Gameplay\CollisionSystem.cs" />
     <Compile Include="Systems\Gameplay\States\GameState.cs" />
     <Compile Include="Systems\Gameplay\States\PlayingState.cs" />
     <Compile Include="Systems\Gameplay\TimingSystem.cs" />
     <Compile Include="Systems\Gameplay\StateSystem.cs" />
     <Compile Include="Systems\Rendering\SpriteRenderingSystem.cs" />
+    <Compile Include="Tags\HasCollided.cs" />
+    <Compile Include="Utils\RectangleExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

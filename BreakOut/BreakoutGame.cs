@@ -55,7 +55,9 @@ namespace BreakOut
             _gameplaySystems.Add(_timingSystem = new TimingSystem());
             _gameplaySystems.Add(new InputSystem());
             _gameplaySystems.Add(new StateSystem());
-            _gameplaySystems.Add(new BallSystem());
+            _gameplaySystems.Add(new BallMovementSystem());
+            _gameplaySystems.Add(new CollisionSystem());
+            _gameplaySystems.Add(new BallBounceSystem());
 
             _systems.Add(_renderingSystems);
             _systems.Add(_gameplaySystems);

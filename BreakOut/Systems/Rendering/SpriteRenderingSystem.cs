@@ -30,14 +30,17 @@ namespace BreakOut.Systems.Rendering
 
             _spriteBatch = new SpriteBatch(_graphicsDevice);
 
-            _screen = new RenderTarget2D(graphicsDevice, 320, 240);
+            _screen = new RenderTarget2D(graphicsDevice, 320, 240, false, SurfaceFormat.ColorSRgb, DepthFormat.None);
+            _graphicsDevice.SetRenderTarget(_screen);
+            _graphicsDevice.Clear(Color.Transparent);
+
         }
 
         public void Run()
         {
+            _graphicsDevice.SetRenderTarget(_screen);
             _graphicsDevice.Clear(Color.CornflowerBlue);
 
-            _graphicsDevice.SetRenderTarget(_screen);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred);
             foreach(var spriteIndex in _entites)
@@ -54,11 +57,14 @@ namespace BreakOut.Systems.Rendering
             _spriteBatch.Begin(SpriteSortMode.Immediate,
                 BlendState.Opaque,
                 SamplerState.PointClamp,
-                DepthStencilState.None,
+                DepthStencilState.Default,
                 RasterizerState.CullNone);
 
-            _spriteBatch.Draw(_screen, new Rectangle(0, 0, _graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight), Color.White);
-            
+            _spriteBatch.Draw(_screen, new Rectangle(0, 0, _graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight), Color.White);/*
+            for (int i = 5; i > 0; i--)
+            {
+                _spriteBatch.Draw(_screen, new Rectangle(0, 0, _graphicsDeviceManager.PreferredBackBufferWidth / i, _graphicsDeviceManager.PreferredBackBufferHeight / i), Color.White);
+            }*/
             _spriteBatch.End();
         }
     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BreakOut.Systems.Gameplay
 {
     [EcsInject]
-    public class BallSystem : IEcsRunSystem
+    public class BallMovementSystem : IEcsRunSystem
     {
         public EcsWorld _world;
         private EcsFilter<BallComponent, TransformComponent> _entites;
@@ -33,12 +33,12 @@ namespace BreakOut.Systems.Gameplay
                 bool flipX = false;
                 bool flipY = false;
 
-                if (ballTransform.Position.X < 0 || ballTransform.Position.X > world.Width)
+                if (ballTransform.Position.X - ball.Radius < 0 || ballTransform.Position.X + ball.Radius > world.Width)
                 {
                     flipX = true;
                 }
 
-                if (ballTransform.Position.Y < 0 || ballTransform.Position.Y > world.Height)
+                if (ballTransform.Position.Y - ball.Radius < 0 || ballTransform.Position.Y + ball.Radius > world.Height)
                 {
                     flipY = true;
                 }
@@ -51,8 +51,8 @@ namespace BreakOut.Systems.Gameplay
                         flipY ? -ball.Direction.Y : ball.Direction.Y);
 
                     ballTransform.Position = new Vector2(
-                        MathHelper.Clamp(ballTransform.Position.X, 0, world.Width),
-                        MathHelper.Clamp(ballTransform.Position.Y, 0, world.Height));
+                        MathHelper.Clamp(ballTransform.Position.X, ball.Radius, world.Width - ball.Radius),
+                        MathHelper.Clamp(ballTransform.Position.Y, ball.Radius, world.Height - ball.Radius));
 
                     //ball.Velocity *= 1.25f;
                     ball.RotationDirection *= -1f;

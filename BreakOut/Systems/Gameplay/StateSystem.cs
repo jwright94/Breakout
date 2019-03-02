@@ -18,17 +18,20 @@ namespace BreakOut.Systems.Gameplay
         {
             SpriteComponent sprite;
             TransformComponent transform;
+            CollidableComponent collider;
 
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < 5; y++)
             {
-                for (int x = 0; x < 10; x++)
+                for (int x = 0; x < 5; x++)
                 {
-                    _world.CreateEntityWith(out sprite, out transform);
+                    _world.CreateEntityWith(out sprite, out transform, out collider);
                     sprite.Texture = Resources.Block;
-                    transform.Position = new Vector2(x*Resources.Block.Width, y*Resources.Block.Height);
+                    transform.Position = new Vector2(x*Resources.Block.Width, y*Resources.Block.Height) * 3f;
 
-
+                    collider.CollisionBox = new Rectangle(0, 0, Resources.Block.Width, Resources.Block.Height);
+                    //break;
                 }
+                //break;
             }
 
             var ballEntity = MakeBall();
@@ -49,12 +52,16 @@ namespace BreakOut.Systems.Gameplay
 
             transform.Position = new Vector2(200, 200);
 
-            ball.Velocity = 500f;
-            ball.RotationDirection = -1f;
+            ball.Radius = 4;
+
+            ball.Velocity = 300f;
+            ball.RotationDirection = -.2f;
             ball.Direction = Vector2.Normalize(new Vector2(1f, 1f));
 
             sprite.Texture = Resources.Ball;
             sprite.Origin = new Vector2(sprite.Texture.Width, sprite.Texture.Height) * 0.5f;
+
+            sprite.Scale = new Vector2(2f * ball.Radius / sprite.Texture.Width);
             return ballEntity;
         }
 
