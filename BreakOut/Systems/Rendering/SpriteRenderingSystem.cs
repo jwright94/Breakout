@@ -41,12 +41,15 @@ namespace BreakOut.Systems.Rendering
             _graphicsDevice.SetRenderTarget(_screen);
             _graphicsDevice.Clear(Color.CornflowerBlue);
 
+            var shadowOffset = new Vector2(2, 2);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred);
             foreach(var spriteIndex in _entites)
             {
                 var sprite = _entites.Components1[spriteIndex];
                 var transform = _entites.Components2[spriteIndex];
+
+                _spriteBatch.Draw(sprite.Texture, transform.Position + shadowOffset, sprite.SourceRectangle, Color.Black*0.3f, transform.Rotation, sprite.Origin, sprite.Scale, SpriteEffects.None, sprite.Layer);
 
                 _spriteBatch.Draw(sprite.Texture, transform.Position, sprite.SourceRectangle, sprite.Color, transform.Rotation, sprite.Origin, sprite.Scale, SpriteEffects.None, sprite.Layer);
             }

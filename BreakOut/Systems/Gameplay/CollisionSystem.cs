@@ -38,12 +38,12 @@ namespace BreakOut.Systems.Gameplay
 
                 foreach(var collidableIndex in _collidables)
                 {
-                    ResolveCollision(ballIndex, collidableIndex, ballCollisionRectangle);
+                    CheckCollision(ballIndex, collidableIndex, ballCollisionRectangle);
                 }
             }
         }
 
-        public void ResolveCollision(int ballIndex, int collidableIndex, Rectangle ballCollisionRectangle)
+        public void CheckCollision(int ballIndex, int collidableIndex, Rectangle ballCollisionRectangle)
         {
             var collider = _collidables.Components1[collidableIndex];
             var colliderTransform = _collidables.Components2[collidableIndex];
@@ -58,22 +58,36 @@ namespace BreakOut.Systems.Gameplay
 
             if(wasCollision)
             {
-                Console.WriteLine("BallCollided: ");
-                Console.WriteLine(ballCollisionRectangle);
-                Console.WriteLine(collidableRectangle);
-
-                if (ballCollisionRectangle.CollidesWith(collidableRectangle))
-                {
-                    var intersect = ballCollisionRectangle.GetIntersectionDepth(collidableRectangle);
-
-                    var ballTransform = _balls.Components2[ballIndex];
-                    ballTransform.Position += intersect;
-
-                    DispatchCollisionEvent(_balls.Entities[ballIndex], _collidables.Entities[collidableIndex], intersect);
-                }
-                
-
+                ResolveCollision(ballIndex, collidableIndex, ballCollisionRectangle, collidableRectangle);
             }
+        }
+
+        private void ResolveCollision(int ballIndex, int collidableIndex, Rectangle ballCollisionRectangle, Rectangle collidableRectangle)
+        {
+            Console.WriteLine("BallCollided: ");
+            Console.WriteLine(ballCollisionRectangle);
+            Console.WriteLine(collidableRectangle);
+
+            if (ballCollisionRectangle.CollidesWith(collidableRectangle))
+            {
+                var intersect = GetShallowIntersect(ballCollisionRectangle.GetIntersectionDepth(collidableRectangle));
+
+                var ballTransform = _balls.Components2[ballIndex];
+                
+                ballTransform.Position += intersect;
+
+                DispatchCollisionEvent(_balls.Entities[ballIndex], _collidables.Entities[collidableIndex], intersect);
+            }
+        }
+
+        private Vector2 GetShallowIntersect(Vector2 intersect)
+        {
+            if(Math.Abs(intersect.X) < Math.Abs(intersect.Y))
+            {
+                return new Vector2(intersect.X, 0);
+            }
+
+            return new Vector2(0, intersect.Y);
         }
 
         private void DispatchCollisionEvent(int ballId, int collidableId, Vector2 intersect)

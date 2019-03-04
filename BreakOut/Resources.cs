@@ -18,10 +18,14 @@ namespace BreakOut
         public static Texture2D Ball;
         public static Texture2D Pixel;
 
+        public static Texture2D Birb { get; internal set; }
+
         public static void LoadContents(GraphicsDevice graphicsDevice)
         {
             Block = LoadTexture("block.png", graphicsDevice);
+            Block = LoadTexture("block2.png", graphicsDevice);
             Ball = LoadTexture("ball.png", graphicsDevice);
+            Birb = LoadTexture("levels/level.png", graphicsDevice);
 
             Pixel = new Texture2D(graphicsDevice, 1, 1);
             Pixel.SetData<Color>(new[] { Color.White });

@@ -1,6 +1,7 @@
 ﻿using BreakOut.Components;
 using Leopotam.Ecs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,33 +14,79 @@ namespace BreakOut.Systems.Gameplay
     public class StateSystem : IEcsRunSystem, IEcsInitSystem
     {
         public EcsWorld _world;
-        
+        private WorldComponent worldEntity;
+
         public void Initialize()
+        {
+            worldEntity = _world.CreateEntityWith<WorldComponent>();
+            worldEntity.Width = 320;
+            worldEntity.Height = 240;
+
+            LoadMap(Resources.Birb);
+
+            
+
+            var ballEntity = MakeBall();
+            
+            BuildWalls();
+
+        }
+
+        private void LoadMap(Texture2D mapImage)
         {
             SpriteComponent sprite;
             TransformComponent transform;
             CollidableComponent collider;
 
-            for (int y = 0; y < 5; y++)
+            var pixels = new Color[10*20];
+            mapImage.GetData(pixels);
+
+            for (int y = 0; y < 10; y++)
             {
-                for (int x = 0; x < 5; x++)
+                for (int x = 0; x < 20; x++)
                 {
+                    var pixel = pixels[x + y*20];
+                    if (pixel.A < 255)
+                        continue;
+
                     _world.CreateEntityWith(out sprite, out transform, out collider);
                     sprite.Texture = Resources.Block;
-                    transform.Position = new Vector2(x*Resources.Block.Width, y*Resources.Block.Height) * 3f;
+                    sprite.Color = pixel;
+                    transform.Position = new Vector2(x * Resources.Block.Width, y * Resources.Block.Height);
 
                     collider.CollisionBox = new Rectangle(0, 0, Resources.Block.Width, Resources.Block.Height);
                     //break;
                 }
                 //break;
             }
+        }
 
-            var ballEntity = MakeBall();
+        private void BuildWalls()
+        {
+            var wallThickness = 32;
 
-            var world = _world.CreateEntityWith<WorldComponent>();
-            world.Width = 320;
-            world.Height = 240;
+            // Top
+            BuildWall(0, -wallThickness, worldEntity.Width, wallThickness);
 
+            // Bottom
+            BuildWall(0, worldEntity.Height, worldEntity.Width, wallThickness);
+
+            // Left
+            BuildWall(-wallThickness, 0, wallThickness, worldEntity.Height + wallThickness);
+
+            // Right
+            BuildWall(worldEntity.Width, 0, wallThickness, worldEntity.Height + wallThickness);
+        }
+
+        private int BuildWall(int x, int y, int width, int height)
+        {
+            var entity = _world.CreateEntityWith<TransformComponent, CollidableComponent>(out var transform, out var collider);
+
+            transform.Position = new Vector2(x, y);
+
+            collider.CollisionBox = new Rectangle(0, 0, width, height);
+
+            return entity;
         }
 
         private int MakeBall()
@@ -50,13 +97,15 @@ namespace BreakOut.Systems.Gameplay
 
             var ballEntity = _world.CreateEntityWith(out transform, out sprite, out ball);
 
-            transform.Position = new Vector2(200, 200);
+            var movement = _world.AddComponent<MovementComponent>(ballEntity);
+
+            transform.Position = new Vector2(worldEntity.Width, worldEntity.Height) * 0.5f;
 
             ball.Radius = 4;
 
-            ball.Velocity = 300f;
-            ball.RotationDirection = -.2f;
-            ball.Direction = Vector2.Normalize(new Vector2(1f, 1f));
+            movement.Velocity = 300f;
+            movement.RotationalVelocity = -.2f;
+            movement.Direction = Vector2.Normalize(new Vector2(1f, 1f));
 
             sprite.Texture = Resources.Ball;
             sprite.Origin = new Vector2(sprite.Texture.Width, sprite.Texture.Height) * 0.5f;

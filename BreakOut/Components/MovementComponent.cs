@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace BreakOut.Components
 {
-    public class BallComponent
+    public class MovementComponent
     {
-        public float RotationDirection { get; internal set; }
-        public int Radius           { get; set; }
+        public Vector2 Direction    { get; set; }
+        public float Velocity       { get; set; }
+        public float RotationalVelocity       { get; set; }
     }
 }
