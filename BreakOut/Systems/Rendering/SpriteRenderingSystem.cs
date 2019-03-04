@@ -15,6 +15,7 @@ namespace BreakOut.Systems.Rendering
     {
         private EcsWorld _world;
         private EcsFilter<SpriteComponent, TransformComponent> _entites;
+        private EcsFilter<WorldComponent> _worldEntities;
 
         private GraphicsDeviceManager _graphicsDeviceManager;
         private GraphicsDevice _graphicsDevice;
@@ -38,12 +39,16 @@ namespace BreakOut.Systems.Rendering
 
         public void Run()
         {
+            var world = _worldEntities.Components1[0];
+
             _graphicsDevice.SetRenderTarget(_screen);
             _graphicsDevice.Clear(Color.CornflowerBlue);
 
             var shadowOffset = new Vector2(2, 2);
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred);
+            Matrix Transform = Matrix.CreateTranslation(world.CameraShakeOffset.X, world.CameraShakeOffset.Y, 0);
+
+            _spriteBatch.Begin(SpriteSortMode.Deferred, transformMatrix: Transform);
             foreach(var spriteIndex in _entites)
             {
                 var sprite = _entites.Components1[spriteIndex];

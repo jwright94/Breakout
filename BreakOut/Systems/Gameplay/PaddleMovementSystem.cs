@@ -14,14 +14,11 @@ namespace BreakOut.Systems.Gameplay
     {
         public EcsWorld _world;
         private EcsFilter<PaddleComponent, MovementComponent> _entites;
-        private EcsFilter<TimeInfoComponent> _timing;
         private EcsFilter<WorldComponent> _worldInfo;
         private EcsFilter<PlayerInputComponent> _playerInput;
 
         public void Run()
         {
-            var time = _timing.Components1[0];
-            var world = _worldInfo.Components1[0];
             var playerInput = _playerInput.Components1[0];
 
             foreach (var index in _entites)

@@ -59,6 +59,7 @@ namespace BreakOut
             _gameplaySystems.Add(new MovementSystem());
             _gameplaySystems.Add(new CollisionSystem());
             _gameplaySystems.Add(new BrickBreakingSystem());
+            _gameplaySystems.Add(new CameraShakeSystem());
             _gameplaySystems.Add(new BallBounceSystem());
 
             _systems.Add(_renderingSystems);
