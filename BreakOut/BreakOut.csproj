@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakoutGame.cs" />
+    <Compile Include="Components\BlockComponent.cs" />
     <Compile Include="Components\MovementComponent.cs" />
     <Compile Include="Components\BallComponent.cs" />
     <Compile Include="Components\CollisionEventComponent.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
+    <Compile Include="Systems\Gameplay\BrickBreakingSystem.cs" />
     <Compile Include="Systems\Gameplay\BallBounceSystem.cs" />
     <Compile Include="Systems\Gameplay\BallMovementSystem.cs" />
     <Compile Include="Systems\Gameplay\InputSystem.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Systems\Gameplay\StateSystem.cs" />
     <Compile Include="Systems\Rendering\SpriteRenderingSystem.cs" />
     <Compile Include="Tags\HasCollided.cs" />
+    <Compile Include="Utils\AudioUtil.cs" />
     <Compile Include="Utils\RectangleExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,6 +143,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Contents\block2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\boop.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\break.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Contents\levels\level.png">

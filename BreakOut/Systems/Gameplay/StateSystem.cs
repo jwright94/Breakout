@@ -37,6 +37,7 @@ namespace BreakOut.Systems.Gameplay
             SpriteComponent sprite;
             TransformComponent transform;
             CollidableComponent collider;
+            BlockComponent block;
 
             var pixels = new Color[10*20];
             mapImage.GetData(pixels);
@@ -49,15 +50,15 @@ namespace BreakOut.Systems.Gameplay
                     if (pixel.A < 255)
                         continue;
 
-                    _world.CreateEntityWith(out sprite, out transform, out collider);
+                    var blockEntity =_world.CreateEntityWith(out sprite, out transform, out collider);
+                    block = _world.AddComponent<BlockComponent>(blockEntity);
+
                     sprite.Texture = Resources.Block;
                     sprite.Color = pixel;
                     transform.Position = new Vector2(x * Resources.Block.Width, y * Resources.Block.Height);
 
                     collider.CollisionBox = new Rectangle(0, 0, Resources.Block.Width, Resources.Block.Height);
-                    //break;
                 }
-                //break;
             }
         }
 
@@ -99,7 +100,7 @@ namespace BreakOut.Systems.Gameplay
 
             var movement = _world.AddComponent<MovementComponent>(ballEntity);
 
-            transform.Position = new Vector2(worldEntity.Width, worldEntity.Height) * 0.5f;
+            transform.Position = new Vector2(worldEntity.Width / 2f, worldEntity.Height - ball.Radius);
 
             ball.Radius = 4;
 

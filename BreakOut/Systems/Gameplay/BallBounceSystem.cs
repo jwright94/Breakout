@@ -1,4 +1,5 @@
 ﻿using BreakOut.Components;
+using BreakOut.Utils;
 using Leopotam.Ecs;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,21 +15,29 @@ namespace BreakOut.Systems.Gameplay
     {
         public EcsWorld _world;
         private EcsFilter<BallComponent, MovementComponent> _balls;
-        private EcsFilter<TimeInfoComponent> _timing;
         private EcsFilter<CollisionEventComponent> _collisionEvents;
+        private EcsFilter<WorldComponent> _worldEntities;
+
+        private Random random = new Random();
+
+
+        private int pitchIndex = 0;
+        private float[] pitches = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
 
         public void Run()
         {
-            var time = _timing.Components1[0];
+            var worldComponent = _worldEntities.Components1[0];
 
             foreach (var eventIndex in _collisionEvents)
             {
+
                 var collisionEvent = _collisionEvents.Components1[eventIndex];
 
                 var movement = _world.GetComponent<MovementComponent>(collisionEvent.Ball);
                 var ball = _world.GetComponent<BallComponent>(collisionEvent.Ball);
-                //var ballTransform = _world.GetComponent<TransformComponent>(collisionEvent.Ball);
+                var ballTransform = _world.GetComponent<TransformComponent>(collisionEvent.Ball);
 
+                Resources.Boop.Play(0.7f, GetNextPitch(), AudioUtil.GetPanningFromPosition(ballTransform.Position.X, worldComponent.Width));
 
                 bool flipX = false;
                 bool flipY = false;
@@ -50,31 +59,14 @@ namespace BreakOut.Systems.Gameplay
                 ball.RotationDirection *= -1f;
                 _world.RemoveEntity(_collisionEvents.Entities[eventIndex]);
             }
-            /*
-            if (ballTransform.Position.X - ball.Radius < 0 || ballTransform.Position.X + ball.Radius > world.Width)
-            {
-                flipX = true;
-            }
-
-            if (ballTransform.Position.Y - ball.Radius < 0 || ballTransform.Position.Y + ball.Radius > world.Height)
-            {
-                flipY = true;
-            }
+        }
 
 
-            if (flipX || flipY)
-            {
-                ball.Direction = new Vector2(
-                    flipX ? -ball.Direction.X : ball.Direction.X,
-                    flipY ? -ball.Direction.Y : ball.Direction.Y);
-
-                ballTransform.Position = new Vector2(
-                    MathHelper.Clamp(ballTransform.Position.X, ball.Radius, world.Width - ball.Radius),
-                    MathHelper.Clamp(ballTransform.Position.Y, ball.Radius, world.Height - ball.Radius));
-
-                //ball.Velocity *= 1.25f;
-                ball.RotationDirection *= -1f;
-                */
-            }
+        private float GetNextPitch()
+        {
+            var pitch = pitches[pitchIndex];
+            pitchIndex = ++pitchIndex % pitches.Length;
+            return pitch;
+        }
     }
 }

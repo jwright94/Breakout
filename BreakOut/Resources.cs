@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,7 +19,10 @@ namespace BreakOut
         public static Texture2D Ball;
         public static Texture2D Pixel;
 
-        public static Texture2D Birb { get; internal set; }
+        public static Texture2D Birb;
+
+        public static SoundEffect Boop;
+        public static SoundEffect Break;
 
         public static void LoadContents(GraphicsDevice graphicsDevice)
         {
@@ -27,8 +31,25 @@ namespace BreakOut
             Ball = LoadTexture("ball.png", graphicsDevice);
             Birb = LoadTexture("levels/level.png", graphicsDevice);
 
+            Boop = LoadSound("boop.wav");
+            Break = LoadSound("break.wav");
+
             Pixel = new Texture2D(graphicsDevice, 1, 1);
             Pixel.SetData<Color>(new[] { Color.White });
+        }
+
+        private static SoundEffect LoadSound(string filename)
+        {
+            var filestream = File.OpenRead(Path.Combine(contentFolder, filename));
+
+            SoundEffect soundEffect;
+
+            using (filestream)
+            {
+                soundEffect = SoundEffect.FromStream(filestream);
+            }
+
+            return soundEffect;
         }
 
         private static Texture2D LoadTexture(string filename, GraphicsDevice graphicsDevice)
