@@ -94,9 +94,10 @@
     <Compile Include="Resources.cs" />
     <Compile Include="Systems\Gameplay\BrickBreakingSystem.cs" />
     <Compile Include="Systems\Gameplay\BallBounceSystem.cs" />
-    <Compile Include="Systems\Gameplay\BallMovementSystem.cs" />
+    <Compile Include="Systems\Gameplay\MovementSystem.cs" />
     <Compile Include="Systems\Gameplay\InputSystem.cs" />
     <Compile Include="Systems\Gameplay\CollisionSystem.cs" />
+    <Compile Include="Systems\Gameplay\PaddleMovementSystem.cs" />
     <Compile Include="Systems\Gameplay\States\GameState.cs" />
     <Compile Include="Systems\Gameplay\States\PlayingState.cs" />
     <Compile Include="Systems\Gameplay\TimingSystem.cs" />

@@ -18,7 +18,7 @@ namespace BreakOut.Systems.Gameplay
         
         public void Initialize()
         {
-
+            _world.CreateEntityWith<PlayerInputComponent>();
         }
 
         public void Destroy()

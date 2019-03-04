@@ -53,8 +53,9 @@ namespace BreakOut
 
             _gameplaySystems = new EcsSystems(_world, "Gameplay Systems");
             _gameplaySystems.Add(_timingSystem = new TimingSystem());
-            _gameplaySystems.Add(new InputSystem());
             _gameplaySystems.Add(new StateSystem());
+            _gameplaySystems.Add(new InputSystem());
+            _gameplaySystems.Add(new PaddleMovementSystem());
             _gameplaySystems.Add(new MovementSystem());
             _gameplaySystems.Add(new CollisionSystem());
             _gameplaySystems.Add(new BrickBreakingSystem());

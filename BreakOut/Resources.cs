@@ -16,6 +16,7 @@ namespace BreakOut
         private const string contentFolder = "./Contents/";
 
         public static Texture2D Block;
+        public static Texture2D Paddle;
         public static Texture2D Ball;
         public static Texture2D Pixel;
 
@@ -26,7 +27,7 @@ namespace BreakOut
 
         public static void LoadContents(GraphicsDevice graphicsDevice)
         {
-            Block = LoadTexture("block.png", graphicsDevice);
+            Paddle = LoadTexture("block.png", graphicsDevice);
             Block = LoadTexture("block2.png", graphicsDevice);
             Ball = LoadTexture("ball.png", graphicsDevice);
             Birb = LoadTexture("levels/level.png", graphicsDevice);

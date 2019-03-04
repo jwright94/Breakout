@@ -29,7 +29,7 @@ namespace BreakOut.Systems.Gameplay
             var ballEntity = MakeBall();
             
             BuildWalls();
-
+            BuildPaddle();
         }
 
         private void LoadMap(Texture2D mapImage)
@@ -77,6 +77,23 @@ namespace BreakOut.Systems.Gameplay
 
             // Right
             BuildWall(worldEntity.Width, 0, wallThickness, worldEntity.Height + wallThickness);
+        }
+
+        private int BuildPaddle()
+        {
+            var entity = _world.CreateEntityWith<TransformComponent, CollidableComponent, PaddleComponent>(out var transform, out var collider, out var paddle);
+            var movement = _world.AddComponent<MovementComponent>(entity);
+            var sprite = _world.AddComponent<SpriteComponent>(entity);
+
+            transform.Position = new Vector2(worldEntity.Width / 2f, worldEntity.Height - 16);
+            
+            var paddleSprite = Resources.Paddle;
+            sprite.Origin = new Vector2(paddleSprite.Width / 2, 0f);
+            sprite.Texture = paddleSprite;
+
+            collider.CollisionBox = new Rectangle((int)-sprite.Origin.X, (int)sprite.Origin.Y, paddleSprite.Width, paddleSprite.Height);
+
+            return entity;
         }
 
         private int BuildWall(int x, int y, int width, int height)
