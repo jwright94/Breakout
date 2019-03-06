@@ -22,7 +22,26 @@ namespace BreakOut.Systems.Gameplay
 
 
         private int pitchIndex = 0;
-        private float[] pitches = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
+        private float[] pitches = GeneratePitch();
+
+        private static float[] GeneratePitch()
+        {
+            var pitches = new List<float>();
+            var range = 1f;
+            var increment = 1f / 20f;
+
+            for(float i=0; i<range; i += increment)
+            {
+                pitches.Add(i);
+            }
+
+            for (float i = 1; i > 0; i -= increment)
+            {
+                pitches.Add(i);
+            }
+
+            return pitches.ToArray();
+        }
 
         public void Run()
         {
